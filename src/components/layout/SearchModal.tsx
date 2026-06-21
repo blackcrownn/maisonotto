@@ -56,6 +56,14 @@ export function SearchModal() {
     return () => clearTimeout(timer);
   }, [query, setResults, setLoading]);
 
+  // Clear search query on close
+  useEffect(() => {
+    if (!isOpen) {
+      setQuery("");
+      setResults([]);
+    }
+  }, [isOpen, setQuery, setResults]);
+
   // Focus & body lock
   useEffect(() => {
     if (isOpen) {

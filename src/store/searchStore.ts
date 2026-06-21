@@ -37,7 +37,7 @@ export const useSearchStore = create<SearchState>()((set) => ({
   setLoading: (isLoading: boolean) => set({ isLoading }),
 
   reset: () => {
-    set({ query: "", results: [], isLoading: false });
+    set({ isOpen: false, query: "", results: [], isLoading: false });
     document.body.classList.remove("modal-open");
   },
 }));
