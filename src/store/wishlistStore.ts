@@ -11,6 +11,7 @@ interface WishlistState {
   toggleItem: (product: Product) => void;
   isInWishlist: (productId: string) => boolean;
   getTotalItems: () => number;
+  clearAll: () => void;
 }
 
 export const useWishlistStore = create<WishlistState>()(
@@ -42,6 +43,8 @@ export const useWishlistStore = create<WishlistState>()(
         get().items.some((p) => p.id === productId),
 
       getTotalItems: () => get().items.length,
+
+      clearAll: () => set({ items: [] }),
     }),
     {
       name: "maisonotto-wishlist",

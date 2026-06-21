@@ -335,6 +335,24 @@ button {
 }
 
 /* ============================================================
+   TOAST ANIMATION
+   ============================================================ */
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-toast-in {
+  animation: toast-in 0.3s var(--ease-smooth) both;
+}
+
+/* ============================================================
    BODY LOCK (mobile menu open)
    ============================================================ */
 body.menu-open,

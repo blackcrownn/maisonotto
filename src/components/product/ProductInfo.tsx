@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Heart, Minus, Plus, ShoppingBag, Check } from "lucide-react";
+import { Heart, Minus, Plus, ShoppingBag } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
 import { useWishlistStore } from "@/store/wishlistStore";
+import { useToastStore } from "@/store/toastStore";
 import type { Product, ProductColor, SizeName } from "@/types/product";
 import { PriceDisplay } from "../ui/PriceDisplay";
 import { Button } from "../ui/Button";
@@ -17,19 +18,21 @@ export function ProductInfo({ product }: ProductInfoProps) {
   const [selectedColor, setSelectedColor] = useState<ProductColor>(product.colors[0]);
   const [selectedSize, setSelectedSize] = useState<SizeName | null>(null);
   const [quantity, setQuantity] = useState(1);
-  const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
   const addItemToCart = useCartStore((s) => s.addItem);
   const { items: wishlistItems, addItem: addToWishlist, removeItem: removeFromWishlist } = useWishlistStore();
+  const { addToast } = useToastStore();
 
   const isFavorite = wishlistItems.some((item) => item.id === product.id);
 
   const handleWishlistToggle = () => {
     if (isFavorite) {
       removeFromWishlist(product.id);
+      addToast({ type: "info", message: "Favorilerden çıkarıldı", description: product.name });
     } else {
       addToWishlist(product);
+      addToast({ type: "success", message: "Favorilere eklendi", description: product.name });
     }
   };
 
@@ -40,16 +43,17 @@ export function ProductInfo({ product }: ProductInfoProps) {
     setErrorMsg("");
     if (!selectedSize) {
       setErrorMsg("Lütfen bir beden seçin.");
+      addToast({ type: "error", message: "Beden seçimi yapılmadı", description: "Lütfen devam etmeden önce bir beden seçin." });
       return;
     }
 
     addItemToCart(product, selectedColor, selectedSize, quantity);
-    setShowSuccessToast(true);
+    addToast({
+      type: "cart",
+      message: "Sepete eklendi",
+      description: `${product.name} · ${selectedSize} · ${quantity} adet`,
+    });
     setQuantity(1);
-
-    setTimeout(() => {
-      setShowSuccessToast(false);
-    }, 3500);
   };
 
   return (
@@ -194,15 +198,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
           </Button>
         </div>
 
-        {/* Success Alert */}
-        {showSuccessToast && (
-          <div className="flex items-center gap-2 bg-stone-50 border border-green-200 px-4 py-3 text-xs text-stone-700 animate-fade-in">
-            <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-green-800 text-white">
-              <Check size={12} />
-            </div>
-            <span>Ürün başarıyla sepete eklendi!</span>
-          </div>
-        )}
+
       </div>
 
       {/* Divider */}
