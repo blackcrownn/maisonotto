@@ -1,5 +1,3 @@
-"use client";
-
 import { Breadcrumb } from "../layout/Breadcrumb";
 import { FilterSidebar } from "./FilterSidebar";
 import { FilterDrawer } from "./FilterDrawer";

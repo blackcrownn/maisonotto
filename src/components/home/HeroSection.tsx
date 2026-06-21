@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { Button } from "../ui/Button";
 
@@ -11,7 +12,14 @@ export function HeroSection() {
       aria-label="Kapak Görseli"
     >
       {/* Background Image with Overlay */}
-      <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=1600&q=80')] bg-cover bg-center bg-no-repeat opacity-85" />
+      <Image
+        src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=1600&q=80"
+        alt="Maison Otto SS25 Koleksiyonu Erkek Giyim"
+        fill
+        priority
+        className="object-cover object-center opacity-85"
+        sizes="100vw"
+      />
       <div className="absolute inset-0 bg-black/15" />
 
       {/* Hero content */}

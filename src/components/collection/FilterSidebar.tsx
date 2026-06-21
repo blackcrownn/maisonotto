@@ -64,6 +64,8 @@ export function FilterSidebar({ className, hideCategory = false }: FilterSidebar
                       "text-sm font-light text-[var(--color-charcoal)] hover:text-[var(--color-ink)] transition-colors text-left w-full",
                       isSelected && "font-medium text-[var(--color-ink)]"
                     )}
+                    aria-label={`Kategori filtrele: ${opt.label}`}
+                    aria-pressed={isSelected}
                   >
                     {opt.label}
                   </button>
@@ -90,6 +92,8 @@ export function FilterSidebar({ className, hideCategory = false }: FilterSidebar
                     ? "border-[var(--color-ink)] bg-[var(--color-ink)] text-white"
                     : "border-[var(--border-base)] text-[var(--color-ink)] hover:border-[var(--color-ink)]"
                 )}
+                aria-label={`Beden filtrele: ${size}`}
+                aria-pressed={isSelected}
               >
                 {size}
               </button>
@@ -112,6 +116,8 @@ export function FilterSidebar({ className, hideCategory = false }: FilterSidebar
                     "flex items-center gap-2 text-sm font-light text-[var(--color-charcoal)] hover:text-[var(--color-ink)] transition-colors w-full",
                     isSelected && "font-medium text-[var(--color-ink)]"
                   )}
+                  aria-label={`Renk filtrele: ${opt.label}`}
+                  aria-pressed={isSelected}
                 >
                   <span
                     className={cn(

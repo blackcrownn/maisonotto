@@ -8,6 +8,7 @@ import { useToastStore } from "@/store/toastStore";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { Button } from "@/components/ui/Button";
 import { formatPrice } from "@/lib/utils";
+import { FREE_SHIPPING_THRESHOLD, SHIPPING_COST } from "@/lib/constants";
 
 export default function CartPage() {
   const [mounted, setMounted] = useState(false);
@@ -45,9 +46,8 @@ export default function CartPage() {
 
   const totalItems = getTotalItems();
   const totalPrice = getTotalPrice();
-  const shippingThreshold = 3000;
-  const remainingForFreeShipping = Math.max(0, shippingThreshold - totalPrice);
-  const shippingProgress = Math.min(100, (totalPrice / shippingThreshold) * 100);
+  const remainingForFreeShipping = Math.max(0, FREE_SHIPPING_THRESHOLD - totalPrice);
+  const shippingProgress = Math.min(100, (totalPrice / FREE_SHIPPING_THRESHOLD) * 100);
 
   return (
     <main className="min-h-screen bg-[var(--color-off-white)]">
@@ -228,13 +228,13 @@ export default function CartPage() {
                   <div className="flex items-center justify-between">
                     <span className="font-sans text-xs text-[var(--color-muted)]">Kargo</span>
                     <span className="font-sans text-xs text-[var(--color-ink)]">
-                      {remainingForFreeShipping === 0 ? "Ücretsiz" : formatPrice(150)}
+                      {remainingForFreeShipping === 0 ? "Ücretsiz" : formatPrice(SHIPPING_COST)}
                     </span>
                   </div>
                   <div className="flex items-center justify-between border-t border-[var(--border-light)] pt-3">
                     <span className="font-sans text-sm font-medium text-[var(--color-ink)]">Toplam</span>
                     <span className="font-serif text-lg font-medium text-[var(--color-ink)]">
-                      {formatPrice(totalPrice + (remainingForFreeShipping === 0 ? 0 : 150))}
+                      {formatPrice(totalPrice + (remainingForFreeShipping === 0 ? 0 : SHIPPING_COST))}
                     </span>
                   </div>
                 </div>

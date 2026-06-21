@@ -73,7 +73,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
         <button
           onClick={handleWishlistToggle}
           aria-label={isFavorite ? "Favorilerimden çıkar" : "Favorilerime ekle"}
-          className="absolute right-3 top-3 z-10 flex h-9 w-9 items-center justify-center bg-white/90 backdrop-blur-xs text-[var(--color-ink)] opacity-0 shadow-sm transition-all duration-300 group-hover:opacity-100 hover:bg-white active:scale-95 rounded-none"
+          className="absolute right-3 top-3 z-10 flex h-9 w-9 items-center justify-center bg-white/90 backdrop-blur-xs text-[var(--color-ink)] md:opacity-0 shadow-sm transition-all duration-300 md:group-hover:opacity-100 hover:bg-white active:scale-95 rounded-none"
         >
           <Heart
             size={16}

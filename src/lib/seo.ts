@@ -15,6 +15,14 @@ export const baseMetadata: Metadata = {
     siteName: SITE_NAME,
     locale: "tr_TR",
     type: "website",
+    images: [
+      {
+        url: "https://images.unsplash.com/photo-1550246140-5119ae4790b8?w=800&q=80",
+        width: 800,
+        height: 1000,
+        alt: "MAISON OTTO Premium Minimal Tailoring",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -35,7 +43,14 @@ export function generateProductMetadata(product: Product): Metadata {
       title: `${product.name} — ${SITE_NAME}`,
       description: product.description,
       type: "website",
+      url: `${SITE_URL}/product/${product.slug}`,
       images: [{ url: product.images[0], width: 800, height: 1000, alt: product.name }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${product.name} — ${SITE_NAME}`,
+      description: product.description,
+      images: [product.images[0]],
     },
   };
 }
@@ -48,7 +63,14 @@ export function generateCollectionMetadata(collection: Collection): Metadata {
     openGraph: {
       title: `${collection.name} — ${SITE_NAME}`,
       description: collection.shortDescription,
+      url: `${SITE_URL}/collections/${collection.slug}`,
       images: [{ url: collection.coverImage, alt: collection.name }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${collection.name} — ${SITE_NAME}`,
+      description: collection.shortDescription,
+      images: [collection.coverImage],
     },
   };
 }

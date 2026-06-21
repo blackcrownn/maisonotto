@@ -8,7 +8,8 @@ import { useToastStore } from "@/store/toastStore";
 import type { Product, ProductColor, SizeName } from "@/types/product";
 import { PriceDisplay } from "../ui/PriceDisplay";
 import { Button } from "../ui/Button";
-import { cn } from "@/lib/utils";
+import { cn, formatPrice } from "@/lib/utils";
+import { FREE_SHIPPING_THRESHOLD } from "@/lib/constants";
 
 interface ProductInfoProps {
   product: Product;
@@ -98,6 +99,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
                 )}
                 style={{ backgroundColor: color.hex }}
                 aria-label={`Renk seç: ${color.label}`}
+                aria-pressed={isColorSelected}
               />
             );
           })}
@@ -131,6 +133,8 @@ export function ProductInfo({ product }: ProductInfoProps) {
                     ? "border-[var(--border-base)] text-[var(--color-ink)] hover:border-[var(--color-ink)]"
                     : "border-[var(--border-light)] text-[var(--color-stone-300)] cursor-not-allowed select-none bg-stone-50"
                 )}
+                aria-label={`Beden seç: ${size.name}`}
+                aria-pressed={isSizeSelected}
               >
                 {size.name}
                 {!isAvailable && (
@@ -220,7 +224,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
         )}
         <div className="flex justify-between text-xs">
           <span className="text-[var(--color-muted)] font-light select-none">Teslimat & İade</span>
-          <span className="text-[var(--color-ink)] font-normal">2.000 TL üzeri ücretsiz kargo</span>
+          <span className="text-[var(--color-ink)] font-normal">{formatPrice(FREE_SHIPPING_THRESHOLD)} üzeri ücretsiz kargo</span>
         </div>
       </div>
     </div>

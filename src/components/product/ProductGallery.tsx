@@ -29,7 +29,8 @@ export function ProductGallery({ images, alt }: ProductGalleryProps) {
                   ? "border-[var(--color-ink)]"
                   : "border-[var(--border-light)] hover:border-[var(--border-strong)]"
               )}
-              aria-label={`Görsel ${idx + 1}`}
+              aria-label={`${alt} - görsel ${idx + 1}`}
+              aria-selected={activeIndex === idx}
             >
               <ImageWithFallback
                 src={img}
