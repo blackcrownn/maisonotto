@@ -6,7 +6,7 @@ import { useCartStore } from "@/store/cartStore";
 import { useWishlistStore } from "@/store/wishlistStore";
 import { useSearchStore } from "@/store/searchStore";
 import { useUIStore } from "@/store/uiStore";
-import { ShoppingBag, Heart, Search, Menu, X } from "lucide-react";
+import { ShoppingBag, Heart, Search, Menu, X, User } from "lucide-react";
 
 interface HeaderClientProps {
   transparent?: boolean;
@@ -40,6 +40,16 @@ export function HeaderClient({ transparent = false }: HeaderClientProps) {
           Ara...
         </span>
       </button>
+
+      {/* Account */}
+      <Link
+        id="header-account-btn"
+        href="/account"
+        aria-label="Hesabım"
+        className={iconClass}
+      >
+        <User size={17} strokeWidth={1.2} />
+      </Link>
 
       {/* Wishlist */}
       <Link
