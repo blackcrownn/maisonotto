@@ -8,27 +8,34 @@ import { useSearchStore } from "@/store/searchStore";
 import { useUIStore } from "@/store/uiStore";
 import { ShoppingBag, Heart, Search, Menu, X } from "lucide-react";
 
-export function HeaderClient() {
+interface HeaderClientProps {
+  transparent?: boolean;
+}
+
+export function HeaderClient({ transparent = false }: HeaderClientProps) {
   const [mounted, setMounted] = useState(false);
-  const totalCartItems = useCartStore((s) => s.getTotalItems());
+  const totalCartItems    = useCartStore((s) => s.getTotalItems());
   const totalWishlistItems = useWishlistStore((s) => s.getTotalItems());
-  const openSearch = useSearchStore((s) => s.openSearch);
+  const openSearch        = useSearchStore((s) => s.openSearch);
   const { isMobileMenuOpen, toggleMobileMenu } = useUIStore();
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  useEffect(() => { setMounted(true); }, []);
+
+  const iconClass = [
+    "relative flex h-10 w-10 items-center justify-center transition-opacity duration-300 hover:opacity-50",
+    transparent ? "text-white" : "text-[var(--color-ink)]",
+  ].join(" ");
 
   return (
-    <div className="flex items-center gap-1 md:gap-2">
+    <div className="flex items-center gap-0.5">
       {/* Search */}
       <button
         id="header-search-btn"
         onClick={openSearch}
         aria-label="Arama yap"
-        className="relative flex h-10 w-10 items-center justify-center text-[var(--color-ink)] transition-colors duration-200 hover:text-[var(--color-muted)]"
+        className={iconClass}
       >
-        <Search size={18} strokeWidth={1.5} />
+        <Search size={17} strokeWidth={1.2} />
       </button>
 
       {/* Wishlist */}
@@ -36,11 +43,14 @@ export function HeaderClient() {
         id="header-wishlist-btn"
         href="/wishlist"
         aria-label={`Favoriler (${mounted ? totalWishlistItems : 0} ürün)`}
-        className="relative flex h-10 w-10 items-center justify-center text-[var(--color-ink)] transition-colors duration-200 hover:text-[var(--color-muted)]"
+        className={iconClass}
       >
-        <Heart size={18} strokeWidth={1.5} />
+        <Heart size={17} strokeWidth={1.2} />
         {mounted && totalWishlistItems > 0 && (
-          <span className="absolute right-1 top-1 flex h-4 w-4 items-center justify-center rounded-full bg-[var(--color-ink)] text-[9px] font-medium text-white">
+          <span
+            className="absolute right-1 top-1 flex h-4 w-4 items-center justify-center rounded-full text-[8px] font-medium"
+            style={{ backgroundColor: transparent ? "#fff" : "#0d0d0d", color: transparent ? "#0d0d0d" : "#fff" }}
+          >
             {totalWishlistItems > 9 ? "9+" : totalWishlistItems}
           </span>
         )}
@@ -51,11 +61,14 @@ export function HeaderClient() {
         id="header-cart-btn"
         href="/cart"
         aria-label={`Sepet (${mounted ? totalCartItems : 0} ürün)`}
-        className="relative flex h-10 w-10 items-center justify-center text-[var(--color-ink)] transition-colors duration-200 hover:text-[var(--color-muted)]"
+        className={iconClass}
       >
-        <ShoppingBag size={18} strokeWidth={1.5} />
+        <ShoppingBag size={17} strokeWidth={1.2} />
         {mounted && totalCartItems > 0 && (
-          <span className="absolute right-1 top-1 flex h-4 w-4 items-center justify-center rounded-full bg-[var(--color-ink)] text-[9px] font-medium text-white">
+          <span
+            className="absolute right-1 top-1 flex h-4 w-4 items-center justify-center rounded-full text-[8px] font-medium"
+            style={{ backgroundColor: transparent ? "#fff" : "#0d0d0d", color: transparent ? "#0d0d0d" : "#fff" }}
+          >
             {totalCartItems > 9 ? "9+" : totalCartItems}
           </span>
         )}
@@ -67,13 +80,12 @@ export function HeaderClient() {
         onClick={toggleMobileMenu}
         aria-label={isMobileMenuOpen ? "Menüyü kapat" : "Menüyü aç"}
         aria-expanded={isMobileMenuOpen}
-        className="flex h-10 w-10 items-center justify-center text-[var(--color-ink)] transition-colors duration-200 hover:text-[var(--color-muted)] md:hidden"
+        className={`${iconClass} md:hidden`}
       >
-        {isMobileMenuOpen ? (
-          <X size={18} strokeWidth={1.5} />
-        ) : (
-          <Menu size={18} strokeWidth={1.5} />
-        )}
+        {isMobileMenuOpen
+          ? <X size={17} strokeWidth={1.2} />
+          : <Menu size={17} strokeWidth={1.2} />
+        }
       </button>
     </div>
   );

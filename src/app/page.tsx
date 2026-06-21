@@ -15,22 +15,22 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <main>
-      {/* Hero Header */}
+      {/* Full-viewport editorial hero — transparent header overlaps */}
       <HeroSection />
 
-      {/* Collection Cards Showcase */}
+      {/* Collection cards */}
       <CollectionShowcase />
 
-      {/* Featured Curated Products Grid */}
+      {/* Featured product grid */}
       <FeaturedProducts />
 
-      {/* Editorial Split Banner */}
+      {/* Editorial split banner */}
       <EditorialBanner />
 
-      {/* Brand Values & Story */}
+      {/* Brand story */}
       <BrandStory />
 
-      {/* Newsletter Signup Form */}
+      {/* Newsletter */}
       <NewsletterSection />
     </main>
   );

@@ -19,7 +19,7 @@ export function PriceDisplay({
   return (
     <div
       className={cn(
-        "inline-flex items-center gap-2 font-sans font-medium text-[var(--color-ink)]",
+        "inline-flex items-center gap-2 font-sans font-light text-[var(--color-ink)]",
         {
           "text-xs": size === "sm",
           "text-sm": size === "md",

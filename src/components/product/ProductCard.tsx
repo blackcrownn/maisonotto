@@ -3,19 +3,19 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Heart } from "lucide-react";
+import { motion } from "framer-motion";
 import { useWishlistStore } from "@/store/wishlistStore";
 import type { Product } from "@/types/product";
 import { ImageWithFallback } from "../ui/ImageWithFallback";
-import { PriceDisplay } from "../ui/PriceDisplay";
-import { Badge } from "../ui/Badge";
 import { cn } from "@/lib/utils";
 
 interface ProductCardProps {
   product: Product;
   className?: string;
+  priority?: boolean;
 }
 
-export function ProductCard({ product, className }: ProductCardProps) {
+export function ProductCard({ product, className, priority }: ProductCardProps) {
   const [isHovered, setIsHovered] = useState(false);
   const { items: wishlistItems, addItem, removeItem } = useWishlistStore();
 
@@ -32,21 +32,22 @@ export function ProductCard({ product, className }: ProductCardProps) {
   };
 
   const hasDiscount = product.salePrice !== undefined && product.salePrice < product.price;
-  const showBadge = product.isNew || hasDiscount;
 
   return (
-    <div
-      className={cn(
-        "group relative flex flex-col bg-white border border-[var(--border-light)]",
-        className
-      )}
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      className={cn("group relative flex flex-col", className)}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Product Image Area */}
+      {/* Product Image — borderless, full-bleed */}
       <Link
         href={`/product/${product.slug}`}
-        className="relative block aspect-[4/5] w-full overflow-hidden bg-[var(--color-stone-50)]"
+        className="relative block overflow-hidden bg-[var(--color-stone-50)]"
+        style={{ aspectRatio: "3/4" }}
       >
         <ImageWithFallback
           src={
@@ -56,60 +57,80 @@ export function ProductCard({ product, className }: ProductCardProps) {
           }
           alt={product.name}
           fill
-          sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-          className="object-cover"
-          priority={product.isFeatured}
+          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+          className="object-cover transition-all duration-700 ease-out group-hover:scale-[1.04]"
+          priority={priority ?? product.isFeatured}
         />
 
-        {/* Badges */}
-        {showBadge && (
-          <div className="absolute left-3 top-3 z-10 flex flex-col gap-1.5">
-            {product.isNew && <Badge variant="primary">Yeni</Badge>}
-            {hasDiscount && <Badge variant="sale">İndirim</Badge>}
-          </div>
-        )}
+        {/* Badges — minimal, top-left */}
+        <div className="absolute left-3 top-3 z-10 flex flex-col gap-1">
+          {product.isNew && (
+            <span className="bg-white text-[var(--color-ink)] text-[8px] font-medium tracking-[0.15em] uppercase px-2 py-0.5">
+              YENİ
+            </span>
+          )}
+          {hasDiscount && (
+            <span className="bg-[var(--color-ink)] text-white text-[8px] font-medium tracking-[0.15em] uppercase px-2 py-0.5">
+              İNDİRİM
+            </span>
+          )}
+        </div>
 
-        {/* Wishlist Button */}
+        {/* Wishlist button — appears on hover */}
         <button
           onClick={handleWishlistToggle}
           aria-label={isFavorite ? "Favorilerimden çıkar" : "Favorilerime ekle"}
-          className="absolute right-3 top-3 z-10 flex h-9 w-9 items-center justify-center bg-white/90 backdrop-blur-xs text-[var(--color-ink)] md:opacity-0 shadow-sm transition-all duration-300 md:group-hover:opacity-100 hover:bg-white active:scale-95 rounded-none"
+          className="absolute right-3 top-3 z-10 flex h-8 w-8 items-center justify-center bg-white/90 backdrop-blur-sm text-[var(--color-ink)] opacity-0 transition-all duration-300 group-hover:opacity-100 hover:bg-white active:scale-95"
         >
           <Heart
-            size={16}
+            size={14}
             strokeWidth={1.5}
             className={cn(
-              "transition-colors",
-              isFavorite ? "fill-[var(--color-ink)] text-[var(--color-ink)]" : "text-[var(--color-ink)]"
+              "transition-colors duration-200",
+              isFavorite
+                ? "fill-[var(--color-ink)] text-[var(--color-ink)]"
+                : "text-[var(--color-ink)]"
             )}
           />
         </button>
       </Link>
 
-      {/* Info Area */}
-      <div className="flex flex-col p-4 flex-grow">
-        <span className="text-[10px] font-sans text-[var(--color-muted)] uppercase tracking-widest mb-1">
-          {product.category}
-        </span>
+      {/* Info area — ultra-minimal */}
+      <div className="pt-4 flex flex-col gap-1">
         <Link
           href={`/product/${product.slug}`}
-          className="font-serif text-sm font-medium text-[var(--color-ink)] hover:text-[var(--color-muted)] transition-colors leading-tight mb-2 flex-grow"
+          className="font-serif text-sm font-light text-[var(--color-ink)] hover:text-[var(--color-muted)] transition-colors leading-snug"
         >
           {product.name}
         </Link>
-        <div className="flex items-center justify-between mt-auto">
-          <PriceDisplay
-            price={product.price}
-            salePrice={product.salePrice}
-            size="sm"
-          />
+
+        <div className="flex items-center justify-between">
+          {/* Price */}
+          <div className="flex items-center gap-2">
+            {hasDiscount ? (
+              <>
+                <span className="text-xs font-light text-[var(--color-ink)]">
+                  ₺{product.salePrice?.toLocaleString("tr-TR")}
+                </span>
+                <span className="text-[10px] font-light text-[var(--color-muted)] line-through">
+                  ₺{product.price.toLocaleString("tr-TR")}
+                </span>
+              </>
+            ) : (
+              <span className="text-xs font-light text-[var(--color-ink)]">
+                ₺{product.price.toLocaleString("tr-TR")}
+              </span>
+            )}
+          </div>
+
+          {/* Color count — only if >1 */}
           {product.colors.length > 1 && (
-            <span className="text-[10px] font-sans text-[var(--color-muted)] tracking-wider">
+            <span className="text-[9px] font-sans text-[var(--color-muted)] tracking-widest uppercase">
               {product.colors.length} Renk
             </span>
           )}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

@@ -1,84 +1,84 @@
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Inter:wght@200;300;400;500&display=swap");
 
 @import "tailwindcss";
 
 /* ============================================================
-   DESIGN TOKENS
+   DESIGN TOKENS — MONOCHROME EDITORIAL PALETTE
    ============================================================ */
 :root {
-  /* Colors */
-  --color-white: #ffffff;
-  --color-off-white: #faf9f7;
-  --color-cream: #f5f3ef;
-  --color-stone-50: #f8f7f5;
-  --color-stone-100: #ede9e3;
-  --color-stone-200: #d9d3ca;
-  --color-stone-300: #b8b0a5;
-  --color-stone-400: #928880;
-  --color-stone-500: #736960;
-  --color-black: #0a0a0a;
-  --color-ink: #1a1a1a;
-  --color-charcoal: #2d2d2d;
-  --color-muted: #6b6b6b;
+  /* Core Monochrome Colors */
+  --color-white:      #ffffff;
+  --color-off-white:  #fafafa;
+  --color-cream:      #f5f5f5;
+  --color-stone-50:   #f7f7f7;
+  --color-stone-100:  #efefef;
+  --color-stone-200:  #dedede;
+  --color-stone-300:  #c4c4c4;
+  --color-stone-400:  #9a9a9a;
+  --color-stone-500:  #6e6e6e;
+  --color-black:      #000000;
+  --color-ink:        #0d0d0d;
+  --color-charcoal:   #222222;
+  --color-muted:      #767676;
 
   /* Typography */
   --font-serif: "Playfair Display", Georgia, serif;
-  --font-sans: "Inter", system-ui, sans-serif;
+  --font-sans:  "Inter", system-ui, sans-serif;
 
-  /* Spacing Scale */
-  --space-section: clamp(4rem, 8vw, 8rem);
-  --space-component: clamp(2rem, 4vw, 4rem);
+  /* Luxury Spacing */
+  --space-section:   clamp(5rem, 10vw, 10rem);
+  --space-component: clamp(2.5rem, 5vw, 5rem);
 
   /* Layout */
-  --max-width: 1440px;
-  --content-width: 1280px;
-  --header-height: 72px;
+  --max-width:     1440px;
+  --content-width: 1320px;
+  --header-height: 68px;
 
-  /* Transitions */
-  --ease-smooth: cubic-bezier(0.25, 0.1, 0.25, 1);
-  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-  --duration-fast: 150ms;
-  --duration-base: 250ms;
-  --duration-slow: 400ms;
+  /* Transitions — subtle only */
+  --ease-smooth:   cubic-bezier(0.25, 0.1, 0.25, 1);
+  --ease-out:      cubic-bezier(0.0, 0.0, 0.2, 1);
+  --duration-fast: 180ms;
+  --duration-base: 300ms;
+  --duration-slow: 600ms;
 
   /* Backgrounds */
-  --bg-primary: var(--color-white);
+  --bg-primary:   var(--color-white);
   --bg-secondary: var(--color-off-white);
-  --bg-tertiary: var(--color-cream);
+  --bg-tertiary:  var(--color-cream);
 
   /* Text */
-  --text-primary: var(--color-ink);
+  --text-primary:   var(--color-ink);
   --text-secondary: var(--color-charcoal);
-  --text-muted: var(--color-muted);
+  --text-muted:     var(--color-muted);
 
-  /* Borders */
-  --border-light: var(--color-stone-100);
-  --border-base: var(--color-stone-200);
+  /* Borders — extremely thin */
+  --border-light:  var(--color-stone-100);
+  --border-base:   var(--color-stone-200);
   --border-strong: var(--color-stone-300);
 }
 
 /* ============================================================
-   TAILWIND THEME EXTENSION
+   TAILWIND THEME
    ============================================================ */
 @theme inline {
   --color-background: var(--bg-primary);
   --color-foreground: var(--text-primary);
   --font-serif: var(--font-serif);
-  --font-sans: var(--font-sans);
+  --font-sans:  var(--font-sans);
 
-  --color-ink: #1a1a1a;
-  --color-white: #ffffff;
-  --color-off-white: #faf9f7;
-  --color-cream: #f5f3ef;
-  --color-stone-50: #f8f7f5;
-  --color-stone-100: #ede9e3;
-  --color-stone-200: #d9d3ca;
-  --color-stone-300: #b8b0a5;
-  --color-stone-400: #928880;
-  --color-stone-500: #736960;
-  --color-black: #0a0a0a;
-  --color-charcoal: #2d2d2d;
-  --color-muted: #6b6b6b;
+  --color-ink:        #0d0d0d;
+  --color-white:      #ffffff;
+  --color-off-white:  #fafafa;
+  --color-cream:      #f5f5f5;
+  --color-stone-50:   #f7f7f7;
+  --color-stone-100:  #efefef;
+  --color-stone-200:  #dedede;
+  --color-stone-300:  #c4c4c4;
+  --color-stone-400:  #9a9a9a;
+  --color-stone-500:  #6e6e6e;
+  --color-black:      #000000;
+  --color-charcoal:   #222222;
+  --color-muted:      #767676;
 }
 
 /* ============================================================
@@ -104,72 +104,67 @@ body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
   font-family: var(--font-sans);
-  font-weight: 400;
+  font-weight: 300;
   line-height: 1.6;
   min-height: 100vh;
   overflow-x: hidden;
 }
 
 /* ============================================================
-   TYPOGRAPHY
+   TYPOGRAPHY — EDITORIAL HIERARCHY
    ============================================================ */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-serif);
-  font-weight: 500;
-  line-height: 1.15;
+  font-weight: 300;
+  line-height: 1.1;
   letter-spacing: -0.01em;
   color: var(--text-primary);
 }
 
-.font-serif {
-  font-family: var(--font-serif);
-}
+.font-serif { font-family: var(--font-serif); }
+.font-sans  { font-family: var(--font-sans); }
 
-.font-sans {
-  font-family: var(--font-sans);
-}
-
-/* Display / Editorial styles */
+/* Display — Full-bleed editorial headline */
 .text-display {
   font-family: var(--font-serif);
-  font-size: clamp(3rem, 7vw, 7rem);
-  font-weight: 500;
-  line-height: 1.0;
+  font-size: clamp(3.5rem, 8vw, 8rem);
+  font-weight: 300;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+}
+
+/* Headline — Section headers */
+.text-headline {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 4vw, 4rem);
+  font-weight: 300;
+  line-height: 1.05;
   letter-spacing: -0.02em;
 }
 
-.text-headline {
-  font-family: var(--font-serif);
-  font-size: clamp(2rem, 4vw, 3.5rem);
-  font-weight: 500;
-  line-height: 1.1;
-  letter-spacing: -0.015em;
-}
-
+/* Title — Product names, card headers */
 .text-title {
   font-family: var(--font-serif);
-  font-size: clamp(1.5rem, 2.5vw, 2rem);
-  font-weight: 500;
+  font-size: clamp(1.25rem, 2vw, 1.75rem);
+  font-weight: 300;
   line-height: 1.2;
 }
 
+/* Label — Navigation, badges, small caps UI */
 .text-label {
   font-family: var(--font-sans);
-  font-size: 0.6875rem; /* 11px */
-  font-weight: 500;
-  letter-spacing: 0.15em;
+  font-size: 0.625rem; /* 10px */
+  font-weight: 400;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
 }
 
+/* Caption — body, descriptions */
 .text-caption {
   font-family: var(--font-sans);
   font-size: 0.8125rem; /* 13px */
-  letter-spacing: 0.02em;
+  font-weight: 300;
+  letter-spacing: 0.01em;
   color: var(--text-muted);
 }
 
@@ -180,7 +175,7 @@ h6 {
   width: 100%;
   max-width: var(--content-width);
   margin-inline: auto;
-  padding-inline: clamp(1.25rem, 4vw, 3rem);
+  padding-inline: clamp(1.5rem, 5vw, 4rem);
 }
 
 .section-spacing {
@@ -188,31 +183,18 @@ h6 {
 }
 
 /* ============================================================
-   SCROLL & SCROLLBAR
+   SCROLLBAR — Ultra thin
    ============================================================ */
-::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--color-stone-100);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--color-stone-300);
-  border-radius: 2px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-stone-400);
-}
+::-webkit-scrollbar { width: 2px; height: 2px; }
+::-webkit-scrollbar-track  { background: transparent; }
+::-webkit-scrollbar-thumb  { background: var(--color-stone-300); border-radius: 1px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-stone-500); }
 
 /* ============================================================
-   FOCUS STYLES (Accessibility)
+   FOCUS (Accessibility)
    ============================================================ */
 :focus-visible {
-  outline: 2px solid var(--color-ink);
+  outline: 1px solid var(--color-ink);
   outline-offset: 3px;
 }
 
@@ -252,57 +234,32 @@ button {
 }
 
 /* ============================================================
-   ANIMATIONS
+   ANIMATIONS — Subtle editorial
    ============================================================ */
 @keyframes fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes fade-in-scale {
-  from {
-    opacity: 0;
-    transform: scale(0.97);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+  from { opacity: 0; transform: scale(0.98); }
+  to   { opacity: 1; transform: scale(1); }
 }
 
 @keyframes slide-in-right {
-  from {
-    transform: translateX(100%);
-  }
-  to {
-    transform: translateX(0);
-  }
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
 }
 
 @keyframes shimmer {
-  from {
-    background-position: -200% center;
-  }
-  to {
-    background-position: 200% center;
-  }
+  from { background-position: -200% center; }
+  to   { background-position:  200% center; }
 }
 
-.animate-fade-in {
-  animation: fade-in var(--duration-slow) var(--ease-smooth) both;
-}
+.animate-fade-in       { animation: fade-in       var(--duration-slow) var(--ease-out) both; }
+.animate-fade-in-scale { animation: fade-in-scale var(--duration-slow) var(--ease-out) both; }
 
-.animate-fade-in-scale {
-  animation: fade-in-scale var(--duration-slow) var(--ease-smooth) both;
-}
-
-/* Skeleton shimmer */
+/* Skeleton */
 .skeleton {
   background: linear-gradient(
     90deg,
@@ -311,8 +268,8 @@ button {
     var(--color-stone-100) 75%
   );
   background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
-  border-radius: 2px;
+  animation: shimmer 1.8s infinite;
+  border-radius: 1px;
 }
 
 /* ============================================================
@@ -321,53 +278,41 @@ button {
 .overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(10, 10, 10, 0.5);
-  backdrop-filter: blur(4px);
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(6px);
   z-index: 40;
 }
 
 /* ============================================================
-   PRODUCT GRID
+   PRODUCT GRID — Magazine layout (no gutters / 1px separator)
    ============================================================ */
 .product-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1px;
-  background-color: var(--border-light);
+  gap: 2rem 1.5rem;
+  background-color: transparent;
 }
 
 @media (min-width: 768px) {
-  .product-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
+  .product-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
 @media (min-width: 1280px) {
-  .product-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
+  .product-grid { grid-template-columns: repeat(4, 1fr); }
 }
 
 /* ============================================================
    TOAST ANIMATION
    ============================================================ */
 @keyframes toast-in {
-  from {
-    opacity: 0;
-    transform: translateX(100%);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  from { opacity: 0; transform: translateX(110%); }
+  to   { opacity: 1; transform: translateX(0); }
 }
 
-.animate-toast-in {
-  animation: toast-in 0.3s var(--ease-smooth) both;
-}
+.animate-toast-in { animation: toast-in 0.35s var(--ease-smooth) both; }
 
 /* ============================================================
-   BODY LOCK (mobile menu open)
+   BODY LOCK
    ============================================================ */
 body.menu-open,
 body.modal-open {

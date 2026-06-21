@@ -48,6 +48,7 @@ export default async function CollectionPage({ params, searchParams }: PageProps
       title={collection.name}
       description={collection.description}
       products={products}
+      heroImage={collection.coverImage}
     />
   );
 }

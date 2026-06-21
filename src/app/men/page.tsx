@@ -53,6 +53,7 @@ export default async function MenPage({ searchParams }: PageProps) {
       title="Erkek Giyim"
       description="Modern silüetler, sürdürülebilir zanaat ve zamansız kaliteyle örülen tüm erkek koleksiyonumuz."
       products={products}
+      heroImage="https://images.unsplash.com/photo-1617952236317-0bd127407984?w=1600&h=900&fit=crop&q=80"
     />
   );
 }

@@ -1,48 +1,55 @@
 import { ShieldCheck, Sparkles, Feather } from "lucide-react";
 
-export function BrandStory() {
-  const values = [
-    {
-      icon: <Feather size={24} strokeWidth={1} className="text-[var(--color-ink)]" />,
-      title: "Olağanüstü Kalite",
-      description: "Yalnızca Pima pamuğu, saf kaşmir ve İtalyan merino yünü gibi en kaliteli ham maddeleri seçerek zamansız dokumalar üretiyoruz."
-    },
-    {
-      icon: <Sparkles size={24} strokeWidth={1} className="text-[var(--color-ink)]" />,
-      title: "Rafine Tasarım",
-      description: "Gereksiz detaylardan ve logolardan arındırılmış minimal kalıplarımızla silüeti ve kumaş dokusunu en saf haliyle sunuyoruz."
-    },
-    {
-      icon: <ShieldCheck size={24} strokeWidth={1} className="text-[var(--color-ink)]" />,
-      title: "Sürdürülebilir Yaklaşım",
-      description: "Düşük karbon ayak izli yerel üreticilerle çalışarak, çevreye saygılı ve etik moda felsefesini destekliyoruz."
-    }
-  ];
+const values = [
+  {
+    icon: <Feather size={18} strokeWidth={1} />,
+    title: "Olağanüstü Kalite",
+    description:
+      "Pima pamuğu, saf kaşmir ve İtalyan merino yünü gibi en kaliteli ham maddelerle zamansız dokumalar.",
+  },
+  {
+    icon: <Sparkles size={18} strokeWidth={1} />,
+    title: "Rafine Tasarım",
+    description:
+      "Logolardan ve gereksiz detaylardan arındırılmış minimal kalıplar — silüet ve kumaş dokusu ön planda.",
+  },
+  {
+    icon: <ShieldCheck size={18} strokeWidth={1} />,
+    title: "Sürdürülebilirlik",
+    description:
+      "Düşük karbon ayak izli yerel üreticilerle; çevreye saygılı ve etik moda felsefesiyle.",
+  },
+];
 
+export function BrandStory() {
   return (
-    <section className="section-spacing bg-[var(--color-off-white)] border-t border-[var(--border-light)]" aria-label="Marka Değerleri">
+    <section
+      className="section-spacing bg-[var(--color-stone-50)]"
+      aria-label="Marka Değerleri"
+    >
       <div className="container-site">
-        <div className="max-w-2xl mx-auto text-center mb-16">
-          <span className="text-label text-[var(--color-muted)] mb-3 block">Felsefemiz</span>
-          <h2 className="text-headline font-serif font-light mb-4 text-[var(--color-ink)]">
-            Zamansız Giyim Anlayışı
+        {/* Header */}
+        <div className="max-w-lg mb-16 md:mb-20">
+          <span className="text-label text-[var(--color-muted)] block mb-4 tracking-[0.25em] text-[10px]">
+            FELSEFEMİZ
+          </span>
+          <h2 className="text-headline font-serif font-light text-[var(--color-ink)]">
+            Zamansız Giyim<br />Anlayışı
           </h2>
-          <p className="text-caption text-sm leading-relaxed max-w-lg mx-auto">
-            Hızlı tüketimin ötesinde, her parçası özenle tasarlanmış ve uzun yıllar formunu koruması için üretilmiş rafine bir gardırop sunuyoruz.
-          </p>
         </div>
 
-        {/* Values Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left">
+        {/* Values — horizontal rule separators, no icon boxes */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-0 divide-y md:divide-y-0 md:divide-x divide-[var(--border-light)]">
           {values.map((val, idx) => (
-            <div key={idx} className="flex flex-col items-center md:items-start max-w-sm mx-auto md:mx-0">
-              <div className="mb-6 flex h-12 w-12 items-center justify-center bg-white border border-[var(--border-light)]">
-                {val.icon}
-              </div>
-              <h3 className="font-serif text-lg font-medium text-[var(--color-ink)] mb-3">
+            <div
+              key={idx}
+              className="flex flex-col py-10 md:py-0 md:px-10 first:md:pl-0 last:md:pr-0 gap-5"
+            >
+              <div className="text-[var(--color-muted)]">{val.icon}</div>
+              <h3 className="font-serif text-base font-light text-[var(--color-ink)]">
                 {val.title}
               </h3>
-              <p className="text-caption leading-relaxed font-light">
+              <p className="text-[13px] font-light text-[var(--color-muted)] leading-loose">
                 {val.description}
               </p>
             </div>

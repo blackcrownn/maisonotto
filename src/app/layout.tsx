@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
-import { ToastContainer } from "@/components/ui/ToastContainer";
+import { LayoutWrapper } from "@/components/layout/LayoutWrapper";
 import { baseMetadata } from "@/lib/seo";
 import "./globals.css";
 
@@ -21,10 +19,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body suppressHydrationWarning>
-        <Header />
-        {children}
-        <Footer />
-        <ToastContainer />
+        <LayoutWrapper>{children}</LayoutWrapper>
       </body>
     </html>
   );

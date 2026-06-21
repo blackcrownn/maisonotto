@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { ArrowRight, Check } from "lucide-react";
-import { Button } from "../ui/Button";
 import { newsletterSchema } from "@/lib/schema";
 
 export function NewsletterSection() {
@@ -21,66 +20,69 @@ export function NewsletterSection() {
     }
 
     setStatus("loading");
-    // Mock API call delay
     await new Promise((resolve) => setTimeout(resolve, 800));
     setStatus("success");
     setEmail("");
   };
 
   return (
-    <section className="section-spacing bg-white border-t border-[var(--border-light)]" aria-label="Bülten Aboneliği">
-      <div className="container-site max-w-4xl">
-        <div className="flex flex-col items-center text-center p-8 md:p-16 bg-[var(--color-cream)] border border-[var(--border-light)]">
-          <span className="text-label text-[var(--color-muted)] mb-4">Ayrıcalıklı Dünya</span>
-          <h2 className="text-headline leading-tight font-serif font-light mb-4 text-[var(--color-ink)]">
-            Maison Otto'ya Katılın
+    <section
+      className="section-spacing bg-[var(--color-ink)]"
+      aria-label="Bülten Aboneliği"
+    >
+      <div className="container-site">
+        <div className="max-w-2xl">
+          <span className="text-label text-white/40 block mb-6 tracking-[0.3em] text-[10px]">
+            BÜLTEN
+          </span>
+          <h2 className="text-headline font-serif font-light text-white mb-6 leading-[1.05]">
+            Maison Otto<br />Dünyasına Katılın
           </h2>
-          <p className="text-caption text-sm leading-relaxed max-w-md mx-auto mb-8 font-light">
-            Yeni koleksiyonlardan, editoryal makalelerden ve özel öncelikli erişim haklarından haberdar olmak için bültenimize kaydolun.
+          <p className="text-[13px] font-light text-white/50 leading-loose mb-12 max-w-sm">
+            Yeni koleksiyonlar, editoryal içerikler ve özel erişim öncelikleri
+            için bültenimize kaydolun.
           </p>
 
           {status === "success" ? (
-            <div className="flex flex-col items-center justify-center py-4 animate-fade-in">
-              <div className="flex h-12 w-12 items-center justify-center bg-[var(--color-ink)] text-white mb-4">
-                <Check size={20} />
-              </div>
-              <p className="font-serif text-base text-[var(--color-ink)]">
-                Aboneliğiniz başarıyla tamamlandı.
-              </p>
-              <p className="text-caption mt-1">
-                İlginiz için teşekkür ederiz.
+            <div className="flex items-center gap-4 animate-fade-in">
+              <Check size={16} className="text-white/60 shrink-0" />
+              <p className="font-serif text-sm font-light text-white/80">
+                Aboneliğiniz tamamlandı. Teşekkürler.
               </p>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="w-full max-w-md flex flex-col gap-2" noValidate>
-              <div className="relative flex flex-col sm:flex-row gap-2">
-                <div className="relative flex-1">
-                  <input
-                    id="home-newsletter-email"
-                    type="email"
-                    value={email}
-                    onChange={(e) => {
-                      setEmail(e.target.value);
-                      if (error) setError("");
-                    }}
-                    placeholder="E-posta adresiniz"
-                    aria-label="Bülten e-posta adresi"
-                    className="w-full border border-[var(--border-base)] bg-white px-4 py-3 text-sm text-[var(--color-ink)] placeholder:text-stone-400 focus:border-[var(--color-ink)] focus:outline-none transition-colors rounded-none"
-                    disabled={status === "loading"}
-                  />
-                </div>
-                <Button
+            <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-3">
+              <div className="flex flex-col sm:flex-row gap-0 border-b border-white/20 pb-0">
+                <input
+                  id="home-newsletter-email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    if (error) setError("");
+                  }}
+                  placeholder="E-posta adresiniz"
+                  aria-label="Bülten e-posta adresi"
+                  className="flex-1 bg-transparent text-sm font-light text-white placeholder:text-white/30 focus:outline-none pb-3 tracking-wide"
+                  disabled={status === "loading"}
+                />
+                <button
                   type="submit"
-                  isLoading={status === "loading"}
-                  variant="primary"
-                  className="sm:w-auto w-full flex items-center justify-center gap-2"
+                  disabled={status === "loading"}
+                  className="shrink-0 flex items-center gap-2 pb-3 text-[10px] text-label tracking-[0.2em] text-white/60 hover:text-white transition-colors duration-300 disabled:opacity-50 sm:pl-8"
                 >
-                  Abone Ol
-                  <ArrowRight size={14} />
-                </Button>
+                  {status === "loading" ? (
+                    <span>Gönderiliyor...</span>
+                  ) : (
+                    <>
+                      <span>ABONE OL</span>
+                      <ArrowRight size={13} strokeWidth={1.5} />
+                    </>
+                  )}
+                </button>
               </div>
               {error && (
-                <p className="text-caption text-red-600 text-left mt-1 text-xs">
+                <p className="text-[11px] font-light text-red-400 tracking-wide">
                   {error}
                 </p>
               )}
