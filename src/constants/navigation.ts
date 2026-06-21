@@ -7,7 +7,6 @@ export const mainNavLinks: NavLink[] = [
   { label: "Men", href: "/men" },
   { label: "New Arrivals", href: "/new-arrivals" },
   { label: "Collections", href: "/collections/ss25" },
-  { label: "Women", href: "/women" },
 ];
 
 export const footerLinks = {
