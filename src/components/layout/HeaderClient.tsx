@@ -33,9 +33,12 @@ export function HeaderClient({ transparent = false }: HeaderClientProps) {
         id="header-search-btn"
         onClick={openSearch}
         aria-label="Arama yap"
-        className={iconClass}
+        className="header-search-bar relative flex h-10 w-10 md:w-[240px] items-center justify-center md:justify-start rounded-full px-0 md:px-4 gap-2.5 transition-all duration-300 focus:outline-none mr-1 md:mr-3"
       >
-        <Search size={17} strokeWidth={1.2} />
+        <Search size={16} strokeWidth={1.2} className="flex-shrink-0" />
+        <span className="hidden md:inline text-xs font-light tracking-wide text-neutral-500">
+          Ara...
+        </span>
       </button>
 
       {/* Wishlist */}
