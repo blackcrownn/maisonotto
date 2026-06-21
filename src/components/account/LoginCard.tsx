@@ -16,285 +16,430 @@ export default function LoginCard() {
   const handleLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password) {
-      addToast({
-        type: "error",
-        message: "Hata",
-        description: "Lütfen tüm alanları doldurun.",
-      });
+      addToast({ type: "error", message: "Hata", description: "Lütfen tüm alanları doldurun." });
       return;
     }
-    addToast({
-      type: "info",
-      message: "Giriş Başarılı",
-      description: `Hoş geldiniz, ${email} (Demo Giriş)`,
-    });
+    addToast({ type: "info", message: "Giriş Başarılı", description: `Hoş geldiniz, ${email} (Demo Giriş)` });
   };
 
   const handleRegisterSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password || !fullName) {
-      addToast({
-        type: "error",
-        message: "Hata",
-        description: "Lütfen zorunlu alanları doldurun.",
-      });
+      addToast({ type: "error", message: "Hata", description: "Lütfen zorunlu alanları doldurun." });
       return;
     }
-    addToast({
-      type: "info",
-      message: "Kayıt Başarılı",
-      description: `Hesabınız oluşturuldu: ${fullName} (Demo Kayıt)`,
-    });
+    addToast({ type: "info", message: "Kayıt Başarılı", description: `Hesabınız oluşturuldu: ${fullName} (Demo Kayıt)` });
   };
 
+  const switchToRegister = () => {
+    setActiveTab("register");
+    setEmail("");
+    setPassword("");
+    setFullName("");
+    setShowPassword(false);
+  };
+
+  const switchToLogin = () => {
+    setActiveTab("login");
+    setEmail("");
+    setPassword("");
+    setFullName("");
+    setShowPassword(false);
+  };
+
+  /* ── Shared sub-components ───────────────────────── */
+
+  const InputField = ({
+    label,
+    type = "text",
+    value,
+    onChange,
+    placeholder,
+    icon,
+    rightSlot,
+    required = false,
+    minLength,
+  }: {
+    label: string;
+    type?: string;
+    value: string;
+    onChange: (v: string) => void;
+    placeholder: string;
+    icon: React.ReactNode;
+    rightSlot?: React.ReactNode;
+    required?: boolean;
+    minLength?: number;
+  }) => (
+    <div>
+      <label
+        style={{
+          display: "block",
+          fontFamily: "var(--font-sans, Inter, sans-serif)",
+          fontSize: "11px",
+          fontWeight: 500,
+          letterSpacing: "0.14em",
+          textTransform: "uppercase",
+          color: "#555",
+          marginBottom: "8px",
+        }}
+      >
+        {label}
+      </label>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          height: "50px",
+          border: "1px solid #ddd",
+          borderRadius: "12px",
+          backgroundColor: "#fff",
+          padding: "0 16px",
+          gap: "12px",
+          transition: "border-color 0.15s",
+        }}
+        onFocus={(e) => ((e.currentTarget as HTMLDivElement).style.borderColor = "#000")}
+        onBlur={(e) => ((e.currentTarget as HTMLDivElement).style.borderColor = "#ddd")}
+      >
+        <span style={{ color: "#aaa", flexShrink: 0, display: "flex", alignItems: "center" }}>{icon}</span>
+        <input
+          type={type}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder={placeholder}
+          required={required}
+          minLength={minLength}
+          style={{
+            flex: 1,
+            height: "100%",
+            border: "none",
+            outline: "none",
+            background: "transparent",
+            fontSize: "14px",
+            fontWeight: 300,
+            color: "#111",
+            fontFamily: "var(--font-sans, Inter, sans-serif)",
+          }}
+        />
+        {rightSlot && (
+          <span style={{ color: "#aaa", flexShrink: 0, display: "flex", alignItems: "center" }}>{rightSlot}</span>
+        )}
+      </div>
+    </div>
+  );
+
+  const PrimaryButton = ({ label }: { label: string }) => (
+    <button
+      type="submit"
+      style={{
+        width: "100%",
+        height: "50px",
+        backgroundColor: "#111",
+        color: "#fff",
+        border: "none",
+        borderRadius: "12px",
+        fontSize: "14px",
+        fontWeight: 500,
+        fontFamily: "var(--font-sans, Inter, sans-serif)",
+        cursor: "pointer",
+        letterSpacing: "0.02em",
+        transition: "background-color 0.15s",
+      }}
+      onMouseOver={(e) => ((e.currentTarget as HTMLButtonElement).style.backgroundColor = "#000")}
+      onMouseOut={(e) => ((e.currentTarget as HTMLButtonElement).style.backgroundColor = "#111")}
+    >
+      {label}
+    </button>
+  );
+
+  const Divider = () => (
+    <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+      <div style={{ flex: 1, height: "1px", backgroundColor: "#e8e8e8" }} />
+      <span
+        style={{
+          fontSize: "11px",
+          color: "#aaa",
+          fontFamily: "var(--font-sans, Inter, sans-serif)",
+          fontWeight: 300,
+          letterSpacing: "0.12em",
+        }}
+      >
+        veya
+      </span>
+      <div style={{ flex: 1, height: "1px", backgroundColor: "#e8e8e8" }} />
+    </div>
+  );
+
+  const OutlineButton = ({
+    label,
+    icon,
+    onClick,
+  }: {
+    label: string;
+    icon?: React.ReactNode;
+    onClick: () => void;
+  }) => (
+    <button
+      type="button"
+      onClick={onClick}
+      style={{
+        width: "100%",
+        height: "50px",
+        backgroundColor: "transparent",
+        color: "#111",
+        border: "1px solid #d0d0d0",
+        borderRadius: "12px",
+        fontSize: "14px",
+        fontWeight: 400,
+        fontFamily: "var(--font-sans, Inter, sans-serif)",
+        cursor: "pointer",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: "8px",
+        transition: "background-color 0.15s, border-color 0.15s",
+      }}
+      onMouseOver={(e) => {
+        (e.currentTarget as HTMLButtonElement).style.backgroundColor = "#f8f8f8";
+        (e.currentTarget as HTMLButtonElement).style.borderColor = "#bbb";
+      }}
+      onMouseOut={(e) => {
+        (e.currentTarget as HTMLButtonElement).style.backgroundColor = "transparent";
+        (e.currentTarget as HTMLButtonElement).style.borderColor = "#d0d0d0";
+      }}
+    >
+      {icon && <span style={{ color: "#888", display: "flex", alignItems: "center" }}>{icon}</span>}
+      {label}
+    </button>
+  );
+
+  /* ── Card wrapper styles ─────────────────────────── */
+
+  const cardStyle: React.CSSProperties = {
+    width: "480px",
+    maxWidth: "90%",
+    backgroundColor: "#fff",
+    borderRadius: "20px",
+    padding: "48px 44px",
+    boxShadow: "0 8px 40px rgba(0,0,0,0.07)",
+  };
+
+  const headerStyle: React.CSSProperties = {
+    textAlign: "center",
+    marginBottom: "32px",
+  };
+
+  const brandTagStyle: React.CSSProperties = {
+    display: "block",
+    fontSize: "11px",
+    fontFamily: "var(--font-sans, Inter, sans-serif)",
+    fontWeight: 400,
+    letterSpacing: "0.24em",
+    textTransform: "uppercase",
+    color: "#aaa",
+    marginBottom: "10px",
+  };
+
+  const headingStyle: React.CSSProperties = {
+    fontFamily: "var(--font-serif, 'Playfair Display', Georgia, serif)",
+    fontSize: "30px",
+    fontWeight: 300,
+    color: "#111",
+    letterSpacing: "0.01em",
+    marginBottom: "10px",
+    lineHeight: 1.2,
+  };
+
+  const subtitleStyle: React.CSSProperties = {
+    fontFamily: "var(--font-sans, Inter, sans-serif)",
+    fontSize: "13px",
+    fontWeight: 300,
+    color: "#999",
+    letterSpacing: "0.01em",
+    lineHeight: 1.6,
+  };
+
+  const formStyle: React.CSSProperties = {
+    display: "flex",
+    flexDirection: "column",
+    gap: "20px",
+  };
+
+  const footerStyle: React.CSSProperties = {
+    textAlign: "center",
+    fontFamily: "var(--font-sans, Inter, sans-serif)",
+    fontSize: "12px",
+    fontWeight: 300,
+    color: "#aaa",
+    paddingTop: "4px",
+  };
+
+  const footerLinkStyle: React.CSSProperties = {
+    color: "#111",
+    fontWeight: 500,
+    textDecoration: "underline",
+    textUnderlineOffset: "3px",
+    cursor: "pointer",
+    marginLeft: "4px",
+    background: "none",
+    border: "none",
+    fontSize: "12px",
+    fontFamily: "var(--font-sans, Inter, sans-serif)",
+  };
+
+  const forgotStyle: React.CSSProperties = {
+    textAlign: "right",
+    marginTop: "6px",
+  };
+
+  const forgotBtnStyle: React.CSSProperties = {
+    background: "none",
+    border: "none",
+    fontSize: "12px",
+    fontFamily: "var(--font-sans, Inter, sans-serif)",
+    fontWeight: 300,
+    color: "#aaa",
+    cursor: "pointer",
+    textDecoration: "underline",
+    textUnderlineOffset: "3px",
+  };
+
+  /* ── Render ──────────────────────────────────────── */
+
   return (
-    <div className="w-[480px] max-w-[90%] bg-white rounded-[24px] p-12 shadow-[0_20px_60px_rgba(0,0,0,0.08)] transition-all duration-300">
+    <div style={cardStyle}>
       {/* Header */}
-      <div className="text-center mb-8">
-        <span className="text-[11px] font-sans uppercase tracking-[0.25em] text-neutral-400 block mb-2 font-light">
-          MAISON OTTO
-        </span>
-        <h1 className="font-serif text-[32px] font-light text-black mb-3 tracking-wide">
-          {activeTab === "login" ? "Giriş Yap" : "Kayıt Ol"}
+      <div style={headerStyle}>
+        <span style={brandTagStyle}>MAISON OTTO</span>
+        <h1 style={headingStyle}>
+          {activeTab === "login" ? "Hoş geldiniz" : "Hesap Oluştur"}
         </h1>
-        <p className="font-sans text-xs text-neutral-400 font-light tracking-wide max-w-[320px] mx-auto leading-relaxed">
-          {activeTab === "login" 
-            ? "Hesabınıza giriş yaparak alışverişe devam edin." 
+        <p style={subtitleStyle}>
+          {activeTab === "login"
+            ? "Hesabınıza giriş yaparak alışverişe devam edin."
             : "Kayıt olarak siparişlerinizi ve favorilerinizi takip edin."}
         </p>
       </div>
 
       {activeTab === "login" ? (
-        /* SIGN IN FORM */
-        <form onSubmit={handleLoginSubmit} className="flex flex-col gap-[20px]">
-          {/* Email Address */}
-          <div>
-            <label className="block text-[11px] font-sans uppercase tracking-widest text-neutral-400 mb-2 font-normal">
-              E-Posta Adresi
-            </label>
-            <div className="relative flex items-center border border-[#d8d8d8] rounded-[14px] bg-white focus-within:border-black transition-colors px-5 h-[56px] gap-3.5">
-              <Mail size={18} className="text-neutral-400 flex-shrink-0" />
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="isim@adres.com"
-                className="w-full h-full text-sm bg-transparent outline-none border-none p-0 text-black font-light placeholder-neutral-400 focus:ring-0"
-                required
-              />
-            </div>
-          </div>
+        <form onSubmit={handleLoginSubmit} style={formStyle}>
+          {/* Email */}
+          <InputField
+            label="E-Posta Adresi"
+            type="email"
+            value={email}
+            onChange={setEmail}
+            placeholder="isim@adres.com"
+            icon={<Mail size={16} />}
+            required
+          />
 
           {/* Password */}
           <div>
-            <label className="block text-[11px] font-sans uppercase tracking-widest text-neutral-400 mb-2 font-normal">
-              Şifre
-            </label>
-            <div className="relative flex items-center border border-[#d8d8d8] rounded-[14px] bg-white focus-within:border-black transition-colors px-5 h-[56px] gap-3.5">
-              <Lock size={18} className="text-neutral-400 flex-shrink-0" />
-              <input
-                type={showPassword ? "text" : "password"}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                className="w-full h-full text-sm bg-transparent outline-none border-none p-0 text-black font-light placeholder-neutral-400 focus:ring-0"
-                required
-              />
+            <InputField
+              label="Şifre"
+              type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={setPassword}
+              placeholder="••••••••"
+              icon={<Lock size={16} />}
+              rightSlot={
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  style={{ background: "none", border: "none", cursor: "pointer", padding: 0, color: "#aaa", display: "flex", alignItems: "center" }}
+                >
+                  {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                </button>
+              }
+              required
+            />
+            <div style={forgotStyle}>
               <button
                 type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="text-neutral-400 hover:text-neutral-600 transition-colors flex items-center justify-center"
-              >
-                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-              </button>
-            </div>
-            
-            {/* Forgot Password Link */}
-            <div className="text-right mt-2">
-              <button
-                type="button"
-                onClick={() => {
+                style={forgotBtnStyle}
+                onClick={() =>
                   addToast({
                     type: "info",
                     message: "Şifremi Unuttum",
                     description: "Şifre sıfırlama bağlantısı e-posta adresinize gönderildi (Demo).",
-                  });
-                }}
-                className="text-[11px] text-neutral-400 hover:text-black underline underline-offset-2 transition-colors font-light"
+                  })
+                }
               >
                 Şifremi Unuttum?
               </button>
             </div>
           </div>
 
-          {/* Action Elements with 16px Spacing (space-y-4) */}
-          <div className="space-y-4 pt-2">
-            {/* Submit Button */}
-            <button
-              type="submit"
-              className="w-full h-[56px] bg-[#111] hover:bg-black/90 transition-all text-white font-sans text-sm font-normal rounded-[14px] active:scale-[0.99] duration-150 shadow-sm flex justify-center items-center"
-            >
-              Giriş Yap
+          {/* Actions */}
+          <PrimaryButton label="Giriş Yap" />
+          <Divider />
+          <OutlineButton label="Hesap Oluştur" icon={<User size={15} />} onClick={switchToRegister} />
+
+          {/* Footer */}
+          <p style={footerStyle}>
+            Maison Otto üyesi değil misiniz?
+            <button type="button" style={footerLinkStyle} onClick={switchToRegister}>
+              Kayıt Olun
             </button>
-
-            {/* Divider */}
-            <div className="relative flex items-center py-1">
-              <div className="flex-grow border-t border-neutral-200"></div>
-              <span className="flex-shrink mx-4 text-[10px] font-sans uppercase tracking-widest text-neutral-400 font-light">veya</span>
-              <div className="flex-grow border-t border-neutral-200"></div>
-            </div>
-
-            {/* Secondary Switch Tab Button */}
-            <button
-              type="button"
-              onClick={() => {
-                setActiveTab("register");
-                setEmail("");
-                setPassword("");
-                setShowPassword(false);
-              }}
-              className="w-full h-[56px] border border-neutral-300 hover:bg-neutral-50/50 bg-transparent text-black transition-all font-sans text-sm font-normal rounded-[14px] flex items-center justify-center gap-2 active:scale-[0.99]"
-            >
-              <User size={14} className="text-neutral-400" />
-              Hesap Oluştur
-            </button>
-          </div>
-
-          {/* Footer text */}
-          <div className="text-center pt-4">
-            <p className="text-xs text-neutral-400 font-light">
-              Maison Otto üyesi değil misiniz?{" "}
-              <button
-                type="button"
-                onClick={() => {
-                  setActiveTab("register");
-                  setEmail("");
-                  setPassword("");
-                  setShowPassword(false);
-                }}
-                className="text-black font-normal underline underline-offset-2 hover:text-neutral-700 transition-colors ml-1"
-              >
-                Kayıt Olun
-              </button>
-            </p>
-          </div>
+          </p>
         </form>
       ) : (
-        /* REGISTER FORM */
-        <form onSubmit={handleRegisterSubmit} className="flex flex-col gap-[20px]">
+        <form onSubmit={handleRegisterSubmit} style={formStyle}>
           {/* Full Name */}
-          <div>
-            <label className="block text-[11px] font-sans uppercase tracking-widest text-neutral-400 mb-2 font-normal">
-              Ad Soyad
-            </label>
-            <div className="relative flex items-center border border-[#d8d8d8] rounded-[14px] bg-white focus-within:border-black transition-colors px-5 h-[56px] gap-3.5">
-              <User size={18} className="text-neutral-400 flex-shrink-0" />
-              <input
-                type="text"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                placeholder="Adınız Soyadınız"
-                className="w-full h-full text-sm bg-transparent outline-none border-none p-0 text-black font-light placeholder-neutral-400 focus:ring-0"
-                required
-              />
-            </div>
-          </div>
+          <InputField
+            label="Ad Soyad"
+            type="text"
+            value={fullName}
+            onChange={setFullName}
+            placeholder="Adınız Soyadınız"
+            icon={<User size={16} />}
+            required
+          />
 
-          {/* Email Address */}
-          <div>
-            <label className="block text-[11px] font-sans uppercase tracking-widest text-neutral-400 mb-2 font-normal">
-              E-Posta Adresi
-            </label>
-            <div className="relative flex items-center border border-[#d8d8d8] rounded-[14px] bg-white focus-within:border-black transition-colors px-5 h-[56px] gap-3.5">
-              <Mail size={18} className="text-neutral-400 flex-shrink-0" />
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="isim@adres.com"
-                className="w-full h-full text-sm bg-transparent outline-none border-none p-0 text-black font-light placeholder-neutral-400 focus:ring-0"
-                required
-              />
-            </div>
-          </div>
+          {/* Email */}
+          <InputField
+            label="E-Posta Adresi"
+            type="email"
+            value={email}
+            onChange={setEmail}
+            placeholder="isim@adres.com"
+            icon={<Mail size={16} />}
+            required
+          />
 
           {/* Password */}
-          <div>
-            <label className="block text-[11px] font-sans uppercase tracking-widest text-neutral-400 mb-2 font-normal">
-              Şifre
-            </label>
-            <div className="relative flex items-center border border-[#d8d8d8] rounded-[14px] bg-white focus-within:border-black transition-colors px-5 h-[56px] gap-3.5">
-              <Lock size={18} className="text-neutral-400 flex-shrink-0" />
-              <input
-                type={showPassword ? "text" : "password"}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="En az 6 karakter"
-                className="w-full h-full text-sm bg-transparent outline-none border-none p-0 text-black font-light placeholder-neutral-400 focus:ring-0"
-                required
-                minLength={6}
-              />
+          <InputField
+            label="Şifre"
+            type={showPassword ? "text" : "password"}
+            value={password}
+            onChange={setPassword}
+            placeholder="En az 6 karakter"
+            icon={<Lock size={16} />}
+            rightSlot={
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="text-neutral-400 hover:text-neutral-600 transition-colors flex items-center justify-center"
+                style={{ background: "none", border: "none", cursor: "pointer", padding: 0, color: "#aaa", display: "flex", alignItems: "center" }}
               >
-                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
               </button>
-            </div>
-          </div>
+            }
+            required
+            minLength={6}
+          />
 
-          {/* Action Elements with 16px Spacing (space-y-4) */}
-          <div className="space-y-4 pt-2">
-            {/* Submit Button */}
-            <button
-              type="submit"
-              className="w-full h-[56px] bg-[#111] hover:bg-black/90 transition-all text-white font-sans text-sm font-normal rounded-[14px] active:scale-[0.99] duration-150 shadow-sm flex justify-center items-center"
-            >
-              Kayıt Ol
+          {/* Actions */}
+          <PrimaryButton label="Kayıt Ol" />
+          <Divider />
+          <OutlineButton label="Giriş Yap" icon={<Lock size={15} />} onClick={switchToLogin} />
+
+          {/* Footer */}
+          <p style={footerStyle}>
+            Zaten üye misiniz?
+            <button type="button" style={footerLinkStyle} onClick={switchToLogin}>
+              Giriş Yapın
             </button>
-
-            {/* Divider */}
-            <div className="relative flex items-center py-1">
-              <div className="flex-grow border-t border-neutral-200"></div>
-              <span className="flex-shrink mx-4 text-[10px] font-sans uppercase tracking-widest text-neutral-400 font-light">veya</span>
-              <div className="flex-grow border-t border-neutral-200"></div>
-            </div>
-
-            {/* Secondary Switch Tab Button */}
-            <button
-              type="button"
-              onClick={() => {
-                setActiveTab("login");
-                setEmail("");
-                setPassword("");
-                setShowPassword(false);
-              }}
-              className="w-full h-[56px] border border-neutral-300 hover:bg-neutral-50/50 bg-transparent text-black transition-all font-sans text-sm font-normal rounded-[14px] flex items-center justify-center gap-2 active:scale-[0.99]"
-            >
-              <Lock size={14} className="text-neutral-400" />
-              Giriş Yap
-            </button>
-          </div>
-
-          {/* Footer text */}
-          <div className="text-center pt-4">
-            <p className="text-xs text-neutral-400 font-light">
-              Zaten üye misiniz?{" "}
-              <button
-                type="button"
-                onClick={() => {
-                  setActiveTab("login");
-                  setEmail("");
-                  setPassword("");
-                  setShowPassword(false);
-                }}
-                className="text-black font-normal underline underline-offset-2 hover:text-neutral-700 transition-colors ml-1"
-              >
-                Giriş Yapın
-              </button>
-            </p>
-          </div>
+          </p>
         </form>
       )}
     </div>
