@@ -128,10 +128,10 @@ export function ProductInfo({ product }: ProductInfoProps) {
                 className={cn(
                   "relative flex h-11 items-center justify-center border text-xs font-light transition-all",
                   isSizeSelected
-                    ? "border-[var(--color-ink)] bg-[var(--color-ink)] text-white font-medium"
+                    ? "border-ink bg-ink text-white font-medium"
                     : isAvailable
-                    ? "border-[var(--border-base)] text-[var(--color-ink)] hover:border-[var(--color-ink)]"
-                    : "border-[var(--border-light)] text-[var(--color-stone-300)] cursor-not-allowed select-none bg-stone-50"
+                    ? "border-stone-200 text-ink hover:border-ink"
+                    : "border-stone-100 text-stone-300 cursor-not-allowed select-none bg-stone-50"
                 )}
                 aria-label={`Beden seç: ${size.name}`}
                 aria-pressed={isSizeSelected}
@@ -189,13 +189,8 @@ export function ProductInfo({ product }: ProductInfoProps) {
           {/* Add to Favorites */}
           <Button
             onClick={handleWishlistToggle}
-            variant="outline"
-            className={cn(
-              "w-12 h-12 p-0 flex items-center justify-center border transition-colors",
-              isFavorite
-                ? "border-[var(--color-ink)] bg-[var(--color-ink)] text-white hover:bg-stone-900"
-                : "border-[var(--border-base)] text-[var(--color-ink)] hover:border-[var(--color-ink)]"
-            )}
+            variant={isFavorite ? "primary" : "outline"}
+            className="w-12 h-12 p-0 flex items-center justify-center transition-colors shrink-0"
             aria-label={isFavorite ? "Favorilerimden çıkar" : "Favorilerime ekle"}
           >
             <Heart size={16} className={isFavorite ? "fill-white text-white" : ""} />

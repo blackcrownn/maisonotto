@@ -20,27 +20,41 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       isLoading = false,
       disabled,
       type = "button",
+      style,
       ...props
     },
     ref
   ) => {
+    const getVariantStyles = () => {
+      switch (variant) {
+        case "primary":
+          return { backgroundColor: "#1c1917", color: "#ffffff" };
+        case "secondary":
+          return { backgroundColor: "#f5f5f4", color: "#1c1917", border: "1px solid #e7e5e4" };
+        case "outline":
+          return { backgroundColor: "transparent", color: "#1c1917", border: "1px solid #1c1917" };
+        case "ghost":
+          return { backgroundColor: "transparent", color: "#1c1917" };
+        case "link":
+          return { backgroundColor: "transparent", color: "#1c1917" };
+        default:
+          return {};
+      }
+    };
+
     return (
       <button
         type={type}
+        style={{ ...getVariantStyles(), ...style }}
         className={cn(
-          "inline-flex items-center justify-center font-sans text-label transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-ink)] disabled:pointer-events-none disabled:opacity-50",
-          // Variants
+          "inline-flex items-center justify-center font-sans text-label transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink disabled:pointer-events-none disabled:opacity-50",
+          // Variants (Hover effects kept here as classes)
           {
-            "bg-[var(--color-ink)] text-[var(--color-white)] hover:bg-neutral-800 active:bg-neutral-900":
-              variant === "primary",
-            "bg-[var(--color-off-white)] text-[var(--color-ink)] border border-[var(--border-base)] hover:bg-[var(--color-cream)]":
-              variant === "secondary",
-            "border border-[var(--color-ink)] bg-transparent text-[var(--color-ink)] hover:bg-[var(--color-ink)] hover:text-[var(--color-white)]":
-              variant === "outline",
-            "bg-transparent text-[var(--color-ink)] hover:bg-[var(--color-stone-50)]":
-              variant === "ghost",
-            "bg-transparent text-[var(--color-ink)] underline-offset-4 hover:underline p-0 h-auto":
-              variant === "link",
+            "hover:bg-neutral-800 active:bg-neutral-900": variant === "primary",
+            "hover:bg-cream": variant === "secondary",
+            "hover:bg-ink hover:text-white": variant === "outline",
+            "hover:bg-stone-50": variant === "ghost",
+            "underline-offset-4 hover:underline p-0 h-auto": variant === "link",
           },
           // Sizes
           {

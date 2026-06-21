@@ -65,6 +65,20 @@
   --color-foreground: var(--text-primary);
   --font-serif: var(--font-serif);
   --font-sans: var(--font-sans);
+
+  --color-ink: #1a1a1a;
+  --color-white: #ffffff;
+  --color-off-white: #faf9f7;
+  --color-cream: #f5f3ef;
+  --color-stone-50: #f8f7f5;
+  --color-stone-100: #ede9e3;
+  --color-stone-200: #d9d3ca;
+  --color-stone-300: #b8b0a5;
+  --color-stone-400: #928880;
+  --color-stone-500: #736960;
+  --color-black: #0a0a0a;
+  --color-charcoal: #2d2d2d;
+  --color-muted: #6b6b6b;
 }
 
 /* ============================================================
