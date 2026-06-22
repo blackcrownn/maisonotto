@@ -35,10 +35,13 @@ export function FilterSidebar({ className, hideCategory = false }: FilterSidebar
   const hasActiveFilters = activeCategory || activeColor || activeSize;
 
   return (
-    <aside className={cn("w-full flex flex-col gap-8 bg-white p-6 border border-[var(--border-light)]", className)}>
-      {/* Sidebar Header */}
-      <div className="flex items-center justify-between pb-4 border-b border-[var(--border-light)]">
-        <span className="font-serif text-base font-medium text-[var(--color-ink)]">Filtreler</span>
+    <aside className={cn("w-full flex flex-col gap-7", className)}>
+
+      {/* Header */}
+      <div className="flex items-center justify-between pb-5 border-b border-[var(--border-light)]">
+        <span className="text-[11px] font-sans uppercase tracking-[0.18em] font-medium text-[var(--color-ink)]">
+          Filtreler
+        </span>
         {hasActiveFilters && (
           <button
             onClick={handleClearAll}
@@ -51,9 +54,11 @@ export function FilterSidebar({ className, hideCategory = false }: FilterSidebar
 
       {/* Category Filter */}
       {!hideCategory && (
-        <div className="flex flex-col gap-3">
-          <h4 className="text-label text-[var(--color-ink)] mb-1">Kategori</h4>
-          <ul className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2.5">
+          <h4 className="text-[10px] font-sans uppercase tracking-[0.18em] text-[var(--color-muted)] mb-1">
+            Kategori
+          </h4>
+          <ul className="flex flex-col gap-1">
             {CATEGORY_OPTIONS.map((opt) => {
               const isSelected = activeCategory === opt.value;
               return (
@@ -61,13 +66,19 @@ export function FilterSidebar({ className, hideCategory = false }: FilterSidebar
                   <button
                     onClick={() => updateParam("category", isSelected ? null : opt.value)}
                     className={cn(
-                      "text-sm font-light text-[var(--color-charcoal)] hover:text-[var(--color-ink)] transition-colors text-left w-full",
-                      isSelected && "font-medium text-[var(--color-ink)]"
+                      "text-[13px] font-light text-[var(--color-muted)] hover:text-[var(--color-ink)] transition-colors text-left w-full py-1",
+                      isSelected && "font-normal text-[var(--color-ink)]"
                     )}
                     aria-label={`Kategori filtrele: ${opt.label}`}
                     aria-pressed={isSelected}
                   >
-                    {opt.label}
+                    <span className="flex items-center gap-2">
+                      {isSelected && (
+                        <span className="w-1 h-1 rounded-full bg-[var(--color-ink)] flex-shrink-0" />
+                      )}
+                      {!isSelected && <span className="w-1 h-1 flex-shrink-0" />}
+                      {opt.label}
+                    </span>
                   </button>
                 </li>
               );
@@ -76,10 +87,15 @@ export function FilterSidebar({ className, hideCategory = false }: FilterSidebar
         </div>
       )}
 
+      {/* Divider */}
+      <div className="border-t border-[var(--border-light)]" />
+
       {/* Size Filter */}
       <div className="flex flex-col gap-3">
-        <h4 className="text-label text-[var(--color-ink)] mb-1">Beden</h4>
-        <div className="grid grid-cols-4 gap-2">
+        <h4 className="text-[10px] font-sans uppercase tracking-[0.18em] text-[var(--color-muted)] mb-1">
+          Beden
+        </h4>
+        <div className="flex flex-wrap gap-2">
           {SIZE_OPTIONS.map((size) => {
             const isSelected = activeSize === size;
             return (
@@ -87,7 +103,7 @@ export function FilterSidebar({ className, hideCategory = false }: FilterSidebar
                 key={size}
                 onClick={() => updateParam("size", isSelected ? null : size)}
                 className={cn(
-                  "flex h-10 items-center justify-center border text-xs font-light transition-all",
+                  "flex h-9 w-9 items-center justify-center border text-[11px] font-light transition-all",
                   isSelected
                     ? "border-[var(--color-ink)] bg-[var(--color-ink)] text-white"
                     : "border-[var(--border-base)] text-[var(--color-ink)] hover:border-[var(--color-ink)]"
@@ -102,10 +118,15 @@ export function FilterSidebar({ className, hideCategory = false }: FilterSidebar
         </div>
       </div>
 
+      {/* Divider */}
+      <div className="border-t border-[var(--border-light)]" />
+
       {/* Color Filter */}
       <div className="flex flex-col gap-3">
-        <h4 className="text-label text-[var(--color-ink)] mb-1">Renk</h4>
-        <ul className="grid grid-cols-2 gap-x-2 gap-y-3">
+        <h4 className="text-[10px] font-sans uppercase tracking-[0.18em] text-[var(--color-muted)] mb-1">
+          Renk
+        </h4>
+        <ul className="flex flex-col gap-2.5">
           {COLOR_OPTIONS.map((opt) => {
             const isSelected = activeColor === opt.value;
             return (
@@ -113,15 +134,15 @@ export function FilterSidebar({ className, hideCategory = false }: FilterSidebar
                 <button
                   onClick={() => updateParam("color", isSelected ? null : opt.value)}
                   className={cn(
-                    "flex items-center gap-2 text-sm font-light text-[var(--color-charcoal)] hover:text-[var(--color-ink)] transition-colors w-full",
-                    isSelected && "font-medium text-[var(--color-ink)]"
+                    "flex items-center gap-3 text-[13px] font-light text-[var(--color-muted)] hover:text-[var(--color-ink)] transition-colors w-full py-0.5",
+                    isSelected && "font-normal text-[var(--color-ink)]"
                   )}
                   aria-label={`Renk filtrele: ${opt.label}`}
                   aria-pressed={isSelected}
                 >
                   <span
                     className={cn(
-                      "h-3.5 w-3.5 border border-black/10 shrink-0",
+                      "h-4 w-4 border border-black/8 shrink-0 rounded-sm",
                       isSelected && "ring-1 ring-[var(--color-ink)] ring-offset-2"
                     )}
                     style={{ backgroundColor: opt.hex }}

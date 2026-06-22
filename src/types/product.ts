@@ -24,6 +24,7 @@ export interface ProductSize {
 
 export type ProductCategory =
   | "t-shirt"
+  | "shirt"
   | "pant"
   | "jacket"
   | "knitwear"

@@ -3,8 +3,9 @@ import type { SortOption } from "@/types/filter";
 
 export const CATEGORY_OPTIONS: { value: ProductCategory; label: string }[] = [
   { value: "t-shirt", label: "T-Shirt" },
-  { value: "pant", label: "Pantolon" },
-  { value: "jacket", label: "Ceket" },
+  { value: "shirt",   label: "Gömlek" },
+  { value: "pant",    label: "Pantolon" },
+  { value: "jacket",  label: "Ceket" },
   { value: "knitwear", label: "Triko" },
   { value: "outerwear", label: "Dış Giyim" },
 ];

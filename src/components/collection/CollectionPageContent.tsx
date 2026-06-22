@@ -1,7 +1,8 @@
+import Image from "next/image";
 import { Breadcrumb } from "../layout/Breadcrumb";
-import { FilterSidebar } from "./FilterSidebar";
 import { FilterDrawer } from "./FilterDrawer";
-import { SortSelect } from "./SortSelect";
+import { SortBar } from "./SortBar";
+import { CategoryBar } from "./CategoryBar";
 import { ActiveFilters } from "./ActiveFilters";
 import { ProductGrid } from "../product/ProductGrid";
 import { EmptyState } from "../product/EmptyState";
@@ -12,6 +13,7 @@ interface CollectionPageContentProps {
   description?: string;
   products: Product[];
   heroImage?: string;
+  showCategoryBar?: boolean;
 }
 
 export function CollectionPageContent({
@@ -19,6 +21,7 @@ export function CollectionPageContent({
   description,
   products,
   heroImage,
+  showCategoryBar = false,
 }: CollectionPageContentProps) {
   const breadcrumbItems = [
     { label: "Koleksiyonlar" },
@@ -28,43 +31,56 @@ export function CollectionPageContent({
   return (
     <main className="min-h-screen bg-white pb-24">
 
-      {/* Editorial hero banner — full-width, tall */}
+      {/* ── Editorial Hero Banner ── */}
       {heroImage ? (
-        <div className="relative w-full overflow-hidden" style={{ height: "55vh", minHeight: "380px" }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+        <div className="relative w-full overflow-hidden" style={{ height: "62vh", minHeight: "420px" }}>
+          <Image
             src={heroImage}
             alt={title}
-            className="absolute inset-0 h-full w-full object-cover object-center"
+            fill
+            sizes="100vw"
+            priority
+            className="object-cover object-center"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-          {/* Title overlay */}
-          <div className="absolute inset-0 flex flex-col justify-end pb-12 px-8 md:px-16">
-            <span className="text-[10px] font-sans tracking-[0.3em] text-white/60 uppercase mb-4">
+          {/* Gradient overlay — bottom-heavy so text pops */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent" />
+
+          {/* Title block — bottom left */}
+          <div className="absolute inset-0 flex flex-col justify-end pb-14 px-10 md:px-20">
+            <span
+              className="text-[10px] font-sans tracking-[0.35em] uppercase mb-3 block"
+              style={{ color: "rgba(255,255,255,0.55)" }}
+            >
               KOLEKSİYON
             </span>
-            <h1 className="font-serif text-4xl md:text-6xl font-light text-white leading-[1.0]">
+            <h1
+              className="font-serif text-5xl md:text-7xl font-light leading-[1.0] tracking-tight mb-4"
+              style={{ color: "#ffffff" }}
+            >
               {title}
             </h1>
             {description && (
-              <p className="text-sm font-light text-white/60 mt-4 max-w-md leading-loose">
+              <p
+                className="text-[13px] font-sans font-light max-w-lg leading-relaxed"
+                style={{ color: "rgba(255,255,255,0.6)" }}
+              >
                 {description}
               </p>
             )}
           </div>
         </div>
       ) : (
-        /* No hero image — plain text header */
-        <div className="container-site pt-12 pb-8 md:pt-16 md:pb-10">
-          <div className="max-w-2xl">
+        /* No hero — plain text header */
+        <div className="bg-[#faf9f7] border-b border-[var(--border-light)]">
+          <div className="container-site py-16 md:py-20">
             <span className="text-[10px] font-sans tracking-[0.3em] text-[var(--color-muted)] uppercase mb-4 block">
               KOLEKSİYON
             </span>
-            <h1 className="text-headline font-serif font-light text-[var(--color-ink)]">
+            <h1 className="font-serif text-4xl md:text-5xl font-light text-[var(--color-ink)] mb-4 tracking-tight">
               {title}
             </h1>
             {description && (
-              <p className="text-caption text-sm font-light leading-loose max-w-xl mt-4">
+              <p className="text-sm font-light text-[var(--color-muted)] leading-relaxed max-w-xl">
                 {description}
               </p>
             )}
@@ -72,34 +88,42 @@ export function CollectionPageContent({
         </div>
       )}
 
-      {/* Breadcrumb — slim, below hero */}
-      <div className="border-b border-[var(--border-light)] py-3">
+      {/* ── Breadcrumb ── */}
+      <div className="border-b border-[var(--border-light)] py-3 bg-white">
         <div className="container-site">
           <Breadcrumb items={breadcrumbItems} />
         </div>
       </div>
 
-      {/* Main grid layout */}
-      <div className="container-site pt-10">
-        {/* Toolbar */}
-        <div className="flex items-center justify-between border-b border-[var(--border-light)] pb-4 mb-10 md:justify-end gap-4">
-          <FilterDrawer />
-          <SortSelect />
-        </div>
+      {/* ── Category Icon Bar ── */}
+      {showCategoryBar && <CategoryBar />}
 
-        {/* Desktop layout: sidebar + grid */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 items-start">
-          <FilterSidebar className="hidden md:flex" />
+      {/* ── Toolbar: sort pills left, count + filter right ── */}
+      <div className="border-b border-[var(--border-light)] bg-white">
+        <div className="container-site">
+          <div className="flex items-center justify-between py-4 gap-4">
+            {/* Sort pills */}
+            <SortBar />
 
-          <div className="md:col-span-3">
-            <ActiveFilters />
-            {products.length > 0 ? (
-              <ProductGrid products={products} />
-            ) : (
-              <EmptyState />
-            )}
+            {/* Right: count + mobile filter trigger */}
+            <div className="flex items-center gap-4 flex-shrink-0">
+              <span className="hidden md:block text-[11px] font-light text-[var(--color-muted)] tracking-wide">
+                {products.length} ürün
+              </span>
+              <FilterDrawer />
+            </div>
           </div>
         </div>
+      </div>
+
+      {/* ── Product Grid (full width, 3 cols) ── */}
+      <div className="container-site pt-10">
+        <ActiveFilters />
+        {products.length > 0 ? (
+          <ProductGrid products={products} columns={3} />
+        ) : (
+          <EmptyState />
+        )}
       </div>
     </main>
   );
